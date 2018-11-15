@@ -11,7 +11,7 @@ func base64Decode() string {
 	data, err := base64.StdEncoding.DecodeString(str)
 
 	if err != nil {
-		log.Fatal("Error:", err)
+		log.Fatal("error:", err)
 	}
 
 	return string(data)
@@ -20,15 +20,18 @@ func base64Decode() string {
 func GetLine() func() string {
 	i := 0
 	lines := strings.Split(base64Decode(), "\n")
+	length := len(lines) - 1
 
 	return func() string {
-		if i != len(lines) {
-			nextLine := lines[i]
+		nextLine := lines[i]
 
-			i++
+		if i == length {
+			i = 0
+
 			return nextLine
 		}
 
-		return ""
+		i++
+		return nextLine
 	}
 }
